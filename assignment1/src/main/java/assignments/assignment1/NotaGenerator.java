@@ -1,5 +1,6 @@
 package assignments.assignment1;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class NotaGenerator {
@@ -10,6 +11,29 @@ public class NotaGenerator {
      */
     public static void main(String[] args) {
         // TODO: Implement interface menu utama
+        boolean menu = true;
+        while (menu) {
+            try {
+                printMenu();
+                System.out.print("Pilihan: ");
+                int pilihan = input.nextInt();
+                System.out.println("================================");
+                if (pilihan == 1) {
+                    generateId(null, null);
+                } else if (pilihan == 2) {
+                    generateNota(null, null, pilihan, null);
+                } else if (pilihan == 0) {
+                    System.out.println("Terima kasih telah menggunakan NotaGenerator!");
+                    menu = false;
+                } else {
+                    System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("================================");
+                System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
+                input.next();
+            }
+        }
     }
 
     /**
