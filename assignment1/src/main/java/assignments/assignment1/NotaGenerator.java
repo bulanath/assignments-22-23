@@ -11,39 +11,37 @@ public class NotaGenerator {
      */
     public static void main(String[] args) {
         // TODO: Implement interface menu utama
-        while (true) {
+        boolean mainMenu = true;
+
+        while (mainMenu) {
             try {
                 printMenu();
                 System.out.print("Pilihan : ");
                 int pilihan = input.nextInt();
+                input.nextLine();
                 System.out.println("================================");
+                
                 if (pilihan == 1) {
                     System.out.println("Masukkan nama Anda:");
                     String nama = input.nextLine();
-                    input.next();
                     System.out.println("Masukkan nomor handphone Anda:");
-                    String nomorHP = input.nextLine();
-                    input.next();
-                    System.out.println(generateId(nama, nomorHP));
+                    String nomorHP = input.next();
+                    System.out.println("ID Anda : "+generateId(nama, nomorHP));
                 } else if (pilihan == 2) {
                     System.out.println("Masukkan nama Anda:");
                     String nama = input.nextLine();
-                    input.next();
                     System.out.println("Masukkan nomor handphone Anda:");
-                    String nomorHandphone = input.nextLine();
-                    input.next();
+                    String nomorHP = input.next();
                     System.out.println("Masukkan tanggal terima:");
-                    String tanggalTerima = input.nextLine();
-                    input.next();
+                    String tanggalTerima = input.next();
                     System.out.println("Masukkan paket laundry:");
-                    String paketLaundry = input.nextLine();
-                    input.next();
-                    System.out.println("Masukkan berat cucian Anda [kg]:");
-                    int beratCucian = input.nextInt();
-                    generateNota(generateId(nama, nomorHandphone), paketLaundry, beratCucian, tanggalTerima);
+                    String paket = input.next();
+                    System.out.println("Masukkan berat cucian Anda [Kg]:");
+                    int berat = input.nextInt();
+                    System.out.println(generateNota(generateId(nama, nomorHP), paket, berat, tanggalTerima));
                 } else if (pilihan == 0) {
                     System.out.println("Terima kasih telah menggunakan NotaGenerator!");
-                    break;
+                    mainMenu = false;
                 } else {
                     System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
                 }
@@ -77,6 +75,41 @@ public class NotaGenerator {
         System.out.println("+-------------------------------+");
     }
 
+    public static int getLetterPosition(char letter) {
+        int position;
+
+        if (Character.isLetter(letter)) {
+            position = letter - 64;
+        } else {
+            position = letter - 48;
+        }
+        return position;
+    }
+
+    public static String checkSum(String idNota) {
+        int idValue = 0;
+
+        for (int i = 0; i < idNota.length(); i++) {
+            if (idNota.charAt(i) == '-') {
+                idValue += 7;
+            } else {
+                idValue += getLetterPosition(idNota.charAt(i));
+            } 
+        }
+        
+        String kodeChecksum = Integer.toString(idValue);
+
+        if (idValue >= 100) {
+            kodeChecksum = kodeChecksum.substring(kodeChecksum.length()-2);
+        } else if (idValue >= 0 && idValue < 10) {
+            kodeChecksum = "0" + kodeChecksum;
+        } else {
+            kodeChecksum = kodeChecksum;
+        }
+
+        return kodeChecksum;
+    }
+
     /**
      * Method untuk membuat ID dari nama dan nomor handphone.
      * Parameter dan return type dari method ini tidak boleh diganti agar tidak mengganggu testing
@@ -85,8 +118,16 @@ public class NotaGenerator {
      */
     public static String generateId(String nama, String nomorHP) {
         // TODO: Implement generate ID sesuai soal.
-        String namaDepan = nama+nomorHP;
-        return namaDepan;
+        String namaDepan, idNota;
+
+        if (nama.contains(" ")) {
+            namaDepan = nama.substring(0, nama.indexOf(' ')).toUpperCase();
+        } else {
+            namaDepan = nama.toUpperCase();
+        }
+
+        idNota = namaDepan+"-"+nomorHP;
+        return idNota+"-"+checkSum(idNota);
     }
 
     /**
@@ -103,7 +144,7 @@ public class NotaGenerator {
      *         <p>Tanggal Selesai : [tanggalTerima + LamaHariPaket]
      */
 
-    public static String generateNota(String id, String paket, int berat, String tanggalTerima){
+    public static String generateNota(String id, String paket, int berat, String tanggalTerima) {
         // TODO: Implement generate nota sesuai soal.
         return null;
     }
