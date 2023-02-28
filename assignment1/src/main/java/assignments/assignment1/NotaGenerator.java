@@ -11,20 +11,39 @@ public class NotaGenerator {
      */
     public static void main(String[] args) {
         // TODO: Implement interface menu utama
-        boolean menu = true;
-        while (menu) {
+        while (true) {
             try {
                 printMenu();
-                System.out.print("Pilihan: ");
+                System.out.print("Pilihan : ");
                 int pilihan = input.nextInt();
                 System.out.println("================================");
                 if (pilihan == 1) {
-                    generateId(null, null);
+                    System.out.println("Masukkan nama Anda:");
+                    String nama = input.nextLine();
+                    input.next();
+                    System.out.println("Masukkan nomor handphone Anda:");
+                    String nomorHP = input.nextLine();
+                    input.next();
+                    System.out.println(generateId(nama, nomorHP));
                 } else if (pilihan == 2) {
-                    generateNota(null, null, pilihan, null);
+                    System.out.println("Masukkan nama Anda:");
+                    String nama = input.nextLine();
+                    input.next();
+                    System.out.println("Masukkan nomor handphone Anda:");
+                    String nomorHandphone = input.nextLine();
+                    input.next();
+                    System.out.println("Masukkan tanggal terima:");
+                    String tanggalTerima = input.nextLine();
+                    input.next();
+                    System.out.println("Masukkan paket laundry:");
+                    String paketLaundry = input.nextLine();
+                    input.next();
+                    System.out.println("Masukkan berat cucian Anda [kg]:");
+                    int beratCucian = input.nextInt();
+                    generateNota(generateId(nama, nomorHandphone), paketLaundry, beratCucian, tanggalTerima);
                 } else if (pilihan == 0) {
                     System.out.println("Terima kasih telah menggunakan NotaGenerator!");
-                    menu = false;
+                    break;
                 } else {
                     System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
                 }
@@ -64,9 +83,10 @@ public class NotaGenerator {
      *
      * @return String ID anggota dengan format [NAMADEPAN]-[nomorHP]-[2digitChecksum]
      */
-    public static String generateId(String nama, String nomorHP){
+    public static String generateId(String nama, String nomorHP) {
         // TODO: Implement generate ID sesuai soal.
-        return null;
+        String namaDepan = nama+nomorHP;
+        return namaDepan;
     }
 
     /**
