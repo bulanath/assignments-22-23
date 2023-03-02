@@ -20,12 +20,15 @@ public class NotaGenerator {
             input.nextLine();
             System.out.println("================================");
 
+            //selection untuk menjalankan tiap pilihan menu
             if (pilihan.equals("1")) {
                 System.out.println("Masukkan nama Anda:");
                 String nama = input.nextLine();
 
                 System.out.println("Masukkan nomor handphone Anda:");
                 String nomorHP = input.next();
+
+                //while loop untuk handling jika nomor hp bukan integer
                 while (true) {
                     if (validasiInt(nomorHP, nomorHP.length()) == false) {
                         System.out.println("Nomor hp hanya menerima digit");
@@ -43,6 +46,8 @@ public class NotaGenerator {
 
                 System.out.println("Masukkan nomor handphone Anda:");
                 String nomorHP = input.next();
+
+                //while loop untuk handling nomor jika nomor hp bukan integer
                 while (true) {
                     if (validasiInt(nomorHP, nomorHP.length()) == false) {
                         System.out.println("Nomor hp hanya menerima digit");
@@ -58,6 +63,8 @@ public class NotaGenerator {
 
                 System.out.println("Masukkan paket laundry:");
                 String paket = input.next();
+
+                //while loop untuk handling jika jenis paket tidak diketahui
                 while (true) {
                     if (validasiPaket(paket) == false && !paket.equals("?")) {
                         System.out.println(String.format("Paket %s tidak diketahui", paket));
@@ -67,6 +74,8 @@ public class NotaGenerator {
                     }
                     System.out.println("Masukkan paket laundry:");
                     paket = input.next();
+
+                    //mencetak jenis paket jika user input "?"
                     if (paket.equals("?")) {
                         showPaket();
                     } 
@@ -75,6 +84,8 @@ public class NotaGenerator {
                 
                 System.out.println("Masukkan berat cucian Anda [Kg]:");
                 String beratStr = input.next();
+
+                //while loop untuk handling jika berat cucian bukan integer
                 while (true) {
                     if (validasiInt(beratStr, beratStr.length()) == false) {
                         System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
@@ -85,6 +96,8 @@ public class NotaGenerator {
                     validasiInt(beratStr, beratStr.length());
                 }
                 int berat = Integer.parseInt(beratStr);
+
+                //membulatkan berat menjadi 2kg jika berat < 2kg
                 if (berat < 2) {
                     System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                     berat = 2;
@@ -123,7 +136,7 @@ public class NotaGenerator {
     }   
 
     /**
-     * Method untuk melakukan validasi input tipe integer.
+     * Method untuk melakukan validasi bila input bertipe integer atau tidak.
      */
     public static boolean validasiInt(String angka, int n) {
         for (int i = 0; i < n; i++) {
@@ -145,10 +158,12 @@ public class NotaGenerator {
     }
 
     /**
-     * Method untuk mencari posisi karakter sesuai ketentuan soal.
+     * Method untuk mencari nilai karakter sesuai ketentuan soal.
      */
-    public static int getCharPosition(char ch) {
+    public static int getCharValue(char ch) {
         int position;
+
+        //selection untuk mendeteksi apakah char berupa huruf atau digit
         if (Character.isLetter(ch)) {
             position = ch - 64;
         } else {
@@ -162,14 +177,18 @@ public class NotaGenerator {
      */
     public static String checkSum(String idNota) {
         int idValue = 0;
+
+        //for loop untuk mencari checksum
         for (int i = 0; i < idNota.length(); i++) {
             if (idNota.charAt(i) == '-') {
                 idValue += 7;
             } else {
-                idValue += getCharPosition(idNota.charAt(i));
+                idValue += getCharValue(idNota.charAt(i));
             } 
         }
         String kodeChecksum = Integer.toString(idValue);
+
+        //handling digit jika checksum memiliki 1 digit atau 3 digit
         if (idValue >= 100) {
             kodeChecksum = kodeChecksum.substring(kodeChecksum.length()-2);
         } else if (idValue >= 0 && idValue < 10) {
@@ -183,6 +202,8 @@ public class NotaGenerator {
      */
     public static String generateId(String nama, String nomorHP) {
         String namaDepan, idNota;
+
+        //selection untuk mengambil nama depan saja jika kata nama > 1
         if (nama.contains(" ")) {
             namaDepan = nama.substring(0, nama.indexOf(' ')).toUpperCase();
         } else {
@@ -201,6 +222,7 @@ public class NotaGenerator {
         int hariPengerjaan = 0;
         String nota = "";
         
+        //selection untuk menghitung harga laundry sesuai paket
         if (paket.equalsIgnoreCase("express")) {
             hargaKg = 12000;
             totalHarga = berat * 12000;
@@ -215,6 +237,7 @@ public class NotaGenerator {
             hariPengerjaan = 3;
         }
         
+        //formatting output nota laundry
         nota += "ID    : "+id+"\n";
         nota += "Paket : "+paket+"\n";
         nota += "Harga :\n";
@@ -235,3 +258,13 @@ public class NotaGenerator {
         return tanggalSelesai;
     }
 }
+
+/**
+ * Resources:
+ * https://stackoverflow.com/questions/5067942/what-is-the-best-way-to-extract-the-first-word-from-a-string-in-java
+ * https://learnjava.co.in/how-to-add-a-number-of-days-to-a-date-in-java/
+ * https://www.geeksforgeeks.org/localdate-parse-method-in-java-with-examples/
+ * https://www.geeksforgeeks.org/how-to-check-if-string-contains-only-digits-in-java/
+ * https://javahungry.blogspot.com/2021/03/not-equal-example-opposite-of-equals.html
+ * https://linuxhint.com/check-if-character-is-number-in-java/
+ */
