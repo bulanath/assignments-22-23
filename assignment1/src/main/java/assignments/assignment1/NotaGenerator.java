@@ -26,13 +26,13 @@ public class NotaGenerator {
                 String nama = input.nextLine();
 
                 System.out.println("Masukkan nomor handphone Anda:");
-                String nomorHP = input.next();
+                String nomorHP = input.nextLine();
 
                 //while loop untuk handling jika nomor hp bukan integer
                 while (true) {
                     if (validasiInt(nomorHP, nomorHP.length()) == false) {
                         System.out.println("Nomor hp hanya menerima digit");
-                        nomorHP = input.next();  
+                        nomorHP = input.nextLine();  
                     } else {
                         break;
                     }
@@ -45,13 +45,13 @@ public class NotaGenerator {
                 String nama = input.nextLine();
 
                 System.out.println("Masukkan nomor handphone Anda:");
-                String nomorHP = input.next();
+                String nomorHP = input.nextLine();
 
                 //while loop untuk handling nomor jika nomor hp bukan integer
                 while (true) {
                     if (validasiInt(nomorHP, nomorHP.length()) == false) {
                         System.out.println("Nomor hp hanya menerima digit");
-                        nomorHP = input.next();  
+                        nomorHP = input.nextLine();  
                     } else {
                         break;
                     }
@@ -59,10 +59,10 @@ public class NotaGenerator {
                 }
 
                 System.out.println("Masukkan tanggal terima:");
-                String tanggalTerima = input.next();
+                String tanggalTerima = input.nextLine();
 
                 System.out.println("Masukkan paket laundry:");
-                String paket = input.next();
+                String paket = input.nextLine();
 
                 //while loop untuk handling jika jenis paket tidak diketahui
                 while (true) {
@@ -73,7 +73,7 @@ public class NotaGenerator {
                         break;
                     }
                     System.out.println("Masukkan paket laundry:");
-                    paket = input.next();
+                    paket = input.nextLine();
 
                     //mencetak jenis paket jika user input "?"
                     if (paket.equals("?")) {
@@ -87,7 +87,7 @@ public class NotaGenerator {
 
                 //while loop untuk handling jika berat cucian bukan integer
                 while (true) {
-                    if (validasiInt(beratStr, beratStr.length()) == false) {
+                    if ((validasiInt(beratStr, beratStr.length()) == false) || beratStr == "0") {
                         System.out.println("Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
                         beratStr = input.next();  
                     } else {
@@ -98,7 +98,7 @@ public class NotaGenerator {
                 int berat = Integer.parseInt(beratStr);
 
                 //membulatkan berat menjadi 2kg jika berat < 2kg
-                if (berat < 2) {
+                if (berat > 0 && berat < 2) {
                     System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
                     berat = 2;
                 }
