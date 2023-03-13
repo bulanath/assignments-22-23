@@ -1,7 +1,10 @@
 package assignments.assignment2;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
+
+import assignments.assignment1.NotaGenerator;
 
 import static assignments.assignment1.NotaGenerator.*;
 
@@ -9,10 +12,13 @@ public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
     private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
     private static Calendar cal = Calendar.getInstance();
-    private static Nota[] notaList;
-    private static Member[] memberList;
+    private static ArrayList<Nota> notaList;
+    private static ArrayList<Member> memberList;
 
     public static void main(String[] args) {
+        notaList = new ArrayList<Nota>();
+        memberList = new ArrayList<Member>();
+
         boolean isRunning = true;
         while (isRunning) {
             printMenu();
@@ -35,6 +41,42 @@ public class MainMenu {
 
     private static void handleGenerateUser() {
         // TODO: handle generate user
+        System.out.println("Masukkan nama Anda:");
+        String nama = input.nextLine();
+
+        System.out.println("Masukkan nomor handphone Anda:");
+        String noHP = input.nextLine();
+
+        //VALIDASI MASIH ERROR
+        while (true) {
+            if (NotaGenerator.validasiInt(noHP, noHP.length()) == false) {
+                System.out.println("Field nomor hp hanya menerima digit.");
+                noHP = input.nextLine();
+            } else {
+                break;
+            } 
+            NotaGenerator.validasiInt(noHP, noHP.length());
+        }
+
+        //METHOD GENERATE ID MASIH SALAH
+        String idMember = NotaGenerator.generateId(nama, noHP);
+
+        boolean duplicate = false;
+
+        for (int i = 0; i < memberList.size(); i++) {
+            if (memberList.get(i).getId().equals(idMember)) {
+                String namaMember = memberList.get(i).getNama();
+                String hpMember = memberList.get(i).getNoHP();
+                System.out.printf("Member dengan nama %s dan nomor hp %s sudah ada!\n", namaMember, hpMember);
+                duplicate = true;
+            }
+        }
+
+        if (duplicate == false) {
+            Member member = new Member(nama, noHP, idMember);
+            memberList.add(member);
+            System.out.printf("Berhasil membuat member dengan %s!\n", idMember);
+        }
     }
 
     private static void handleGenerateNota() {
@@ -47,6 +89,12 @@ public class MainMenu {
 
     private static void handleListUser() {
         // TODO: handle list semua user pada sistem
+        System.out.printf("Terdapat %d member dalam sistem.\n", memberList.size());
+        for (int i = 0; i < memberList.size(); i++) {
+            String idMember = memberList.get(i).getId();
+            String namaMember = memberList.get(i).getNama();
+            System.out.printf("- %s : %s\n", idMember, namaMember);
+        }
     }
 
     private static void handleAmbilCucian() {
