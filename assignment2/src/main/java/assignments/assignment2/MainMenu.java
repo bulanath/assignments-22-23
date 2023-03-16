@@ -41,12 +41,25 @@ public class MainMenu {
     }
 
     private static boolean isNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c))
+    if (str.startsWith("-")) {
+        if (str.length() == 1) {
+            return false;
+        }
+        for (int i = 1; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
                 return false;
+            }
+        }
+        return true;
+    } else {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
         }
         return true;
     }
+}
 
     private static void handleGenerateUser() {
         System.out.println("Masukkan nama Anda:");
@@ -54,7 +67,7 @@ public class MainMenu {
 
         System.out.println("Masukkan nomor handphone Anda:");
         String noHP = input.nextLine();
-        while (!isNumeric(noHP)) {
+        while (!isNumeric(noHP) || !noHP.matches("[0-9]+")) {
             System.out.println("Field nomor hp hanya menerima digit.");
             noHP = input.nextLine();
         }
@@ -170,29 +183,32 @@ public class MainMenu {
     }
 
     private static void handleAmbilCucian() {
-        int indexNota = 0;
-
         System.out.println("Masukan ID nota yang akan diambil:");
         String idNotaInput = input.nextLine();
-
+        
         while (!isNumeric(idNotaInput)) {
             System.out.println("ID nota berbentuk angka!");
             idNotaInput = input.nextLine();
         }
         
+        int indexNota = -1;
         int idNota = Integer.parseInt(idNotaInput);
         for (int i = 0; i < notaList.size(); i++) {
             if ((notaList.get(i).getIdNota()) == idNota) {
                 indexNota = i;
-                if (notaList.get(indexNota).getIsReady()) {
-                    System.out.printf("Nota dengan ID %d berhasil diambil!\n", idNota);
-                    notaList.remove(indexNota);
-                } else {
-                    System.out.printf("Nota dengan ID %d gagal diambil!\n", idNota);
-                }
             }
         }
-        System.out.printf("Nota dengan ID %d tidak ditemukan!\n", idNota);
+
+        if (indexNota == -1) {
+            System.out.printf("Nota dengan ID %d tidak ditemukan!\n", idNota);
+        } else {
+            if (notaList.get(indexNota).getIsReady()) {
+                System.out.printf("Nota dengan ID %d berhasil diambil!\n", idNota);
+                notaList.remove(indexNota);
+            } else {
+                System.out.printf("Nota dengan ID %d gagal diambil!\n", idNota);
+            }
+        }
     }
 
     private static void handleNextDay() {
@@ -224,5 +240,3 @@ public class MainMenu {
         System.out.println("[0] Exit");
     }
 }
-
-//#TODO: PESAN AMBIL LAUNDRY, HANDLING PESAN INPUT NOTA
