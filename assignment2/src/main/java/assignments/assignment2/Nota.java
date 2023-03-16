@@ -12,14 +12,16 @@ public class Nota {
     private String tanggalMasuk;
     private int sisaHariPengerjaan;
     private boolean isReady;
+    private boolean getDiscount;
 
-    public Nota(Member member, String paket, int berat, String tanggalMasuk, int idNota, int sisaHariPengerjaan) {
+    public Nota(Member member, String paket, int berat, String tanggalMasuk, int idNota, int sisaHariPengerjaan, boolean getDiscount) {
         this.member = member;
         this.paket = paket;
         this.berat = berat;
         this.tanggalMasuk = tanggalMasuk;
         this.idNota = idNota;
         this.sisaHariPengerjaan = sisaHariPengerjaan;
+        this.getDiscount = getDiscount;
     }
 
     public int getIdNota() {
@@ -52,17 +54,20 @@ public class Nota {
         cal.add(Calendar.DATE, sisaHariPengerjaan);
 
         long harga = NotaGenerator.getHargaPaket(paket);
-        String nota = "";
 
+        String nota = "";
         nota += String.format("[ID Nota = %d]\n", idNota);
         nota += String.format("ID	: %s\n", this.member.getId());
         nota += String.format("Paket : %s\n", paket);
         nota += "Harga :\n";
-        nota += String.format("%d kg x %d = %d\n", berat, harga, berat*harga);
+        if (getDiscount == true) {
+            nota += String.format("%d kg x %d = %d = %d (Discount member 50%%!!!)\n", berat, harga, berat*harga, (berat*harga)/2);
+        } else {
+            nota += String.format("%d kg x %d = %d\n", berat, harga, berat*harga);
+        }
         nota += String.format("Tanggal Terima  : %s\n", tanggalMasuk);
         nota += String.format("Tanggal Selesai : %s\n", fmt.format(cal.getTime()));
-        nota += "Status      	: Belum bisa diambil :(\n";
-
+        nota += "Status\t\t: Belum bisa diambil :(";
         return nota;
     }
 }
