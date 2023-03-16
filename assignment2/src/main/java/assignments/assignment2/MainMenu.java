@@ -292,6 +292,9 @@ public class MainMenu {
         System.out.println("Dek Depe: It's CuciCuci Time.");
     }
 
+    /**
+     * Method untuk menampilkan menu
+     */
     private static void printMenu() {
         System.out.println("\nSelamat datang di CuciCuci!");
         System.out.printf("Sekarang Tanggal: %s\n", fmt.format(cal.getTime()));
