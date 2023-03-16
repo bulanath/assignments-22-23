@@ -34,7 +34,7 @@ public class Nota {
 
     public void setSisaHariPengerjaan() {
         this.sisaHariPengerjaan--;
-    };
+    }
 
     public boolean getIsReady() {
         return this.isReady;
@@ -60,11 +60,11 @@ public class Nota {
         nota += String.format("ID	: %s\n", this.member.getId());
         nota += String.format("Paket : %s\n", paket);
         nota += "Harga :\n";
+        nota += String.format("%d kg x %d = %d", berat, harga, berat * harga);
         if (getDiscount == true) {
-            nota += String.format("%d kg x %d = %d = %d (Discount member 50%%!!!)\n", berat, harga, berat*harga, (berat*harga)/2);
-        } else {
-            nota += String.format("%d kg x %d = %d\n", berat, harga, berat*harga);
+            nota += String.format(" = %d (Discount member 50%%!!!)", (berat * harga) / 2);
         }
+        nota += "\n";
         nota += String.format("Tanggal Terima  : %s\n", tanggalMasuk);
         nota += String.format("Tanggal Selesai : %s\n", fmt.format(cal.getTime()));
         nota += "Status\t\t: Belum bisa diambil :(";
