@@ -16,6 +16,7 @@ public class Nota {
     private long baseHarga;
     private long harga;
     private int sisaHariPengerjaan;
+    private int hariKerja;
     private int berat;
     private int id;
     private String tanggalMasuk;
@@ -31,6 +32,7 @@ public class Nota {
         this.tanggalMasuk = tanggalMasuk;
 
         sisaHariPengerjaan = NotaGenerator.getHariPaket(paket);
+        hariKerja = sisaHariPengerjaan;
         harga = NotaGenerator.getHargaPaket(paket);
     }
 
@@ -59,7 +61,7 @@ public class Nota {
     }
 
     public void toNextDay() {
-        // TODO
+        // TODO: masih error
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
     }
@@ -99,7 +101,7 @@ public class Nota {
     
     @Override
     public String toString() {
-        //TODO: masih salah ngitung tanggal
+        //TODO
         //Menginisiasi class SimpleDateFormat dan Calendar untuk menghitung tanggalSelesai
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
@@ -111,7 +113,7 @@ public class Nota {
         cal.set(year, month, date);
         
         //Menambah hari sesuai dengan paket laundry
-        cal.add(Calendar.DATE, sisaHariPengerjaan);
+        cal.add(Calendar.DATE, hariKerja);
         
         String nota = "";
         nota += String.format("[ID Nota = %d]\n", getIdNota());
@@ -125,7 +127,7 @@ public class Nota {
         for (LaundryService service: services) {
             nota += String.format("- %s @ Rp.%d\n", service.getServiceName(), service.getHarga(getBerat()));
         }
-        nota += String.format("Harga Akhir: %d", calculateHarga());
+        nota += String.format("Harga Akhir: %d ", calculateHarga());
         if (terlambat) {
             nota += String.format("Ada kompensasi keterlambatan %d * 2000 hari\n", Math.abs(sisaHariPengerjaan));
         }
