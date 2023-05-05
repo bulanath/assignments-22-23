@@ -29,7 +29,13 @@ public class EmployeeSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
-        // TODO:
+        // TODO
+        switch (choice) {
+            // case 1 -> generateNota();
+            // case 2 -> printNota();
+            case 3 -> logout = true;
+            default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
+        }
         return logout;
     }
 
