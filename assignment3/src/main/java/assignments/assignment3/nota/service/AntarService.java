@@ -18,10 +18,10 @@ public class AntarService implements LaundryService{
 
     @Override
     public long getHarga(int berat) {
-        // TODO: masih error
+        // TODO
         long harga = 2000;
         if (berat > 4) {
-            harga += (berat * 500);
+            harga += ((berat-4) * 500);
         }
         return harga;
     }
