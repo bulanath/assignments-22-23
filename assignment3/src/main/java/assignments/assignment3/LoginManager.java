@@ -41,6 +41,12 @@ public class LoginManager {
      */
     public Member register(String nama, String noHp, String password) {
         // TODO
-        return null;
+        String idUser = NotaGenerator.generateId(nama, noHp);
+        if (memberSystem.isMemberExist(idUser)) {
+            return null;
+        }
+        Member member = new Member(nama, idUser, password);
+        memberSystem.addMember(member);
+        return member;
     }
 }
