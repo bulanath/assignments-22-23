@@ -1,7 +1,21 @@
 package assignments.assignment3.user.menu;
+import assignments.assignment3.nota.Nota;
+import assignments.assignment3.nota.NotaManager;
+import assignments.assignment3.nota.service.LaundryService;
+import assignments.assignment3.nota.service.CuciService;
+import assignments.assignment3.nota.service.AntarService;
+import assignments.assignment3.nota.service.SetrikaService;
 import assignments.assignment3.user.Member;
+import assignments.assignment1.NotaGenerator;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Arrays;
 
 public class MemberSystem extends SystemCLI {
+    private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
+    private static Calendar cal = Calendar.getInstance();
+    private static int idNota = 0;
+    
     /**
      * Memproses pilihan dari Member yang masuk ke sistem ini sesuai dengan menu specific.
      *
@@ -12,6 +26,12 @@ public class MemberSystem extends SystemCLI {
     protected boolean processChoice(int choice) {
         boolean logout = false;
         // TODO
+        switch (choice) {
+            case 1 -> generateNota();
+            case 2 -> printNota();
+            case 3 -> logout = true;
+            default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
+        }
         return logout;
     }
 
@@ -32,5 +52,59 @@ public class MemberSystem extends SystemCLI {
      */
     public void addMember(Member member) {
         // TODO
+        memberList = Arrays.copyOf(memberList, memberList.length + 1);
+        memberList[memberList.length - 1] = member;
+    }
+
+    public void generateNota() {
+        String tanggalMasuk = fmt.format(cal.getTime());
+
+        System.out.println("Masukkan paket laundry:");
+        NotaGenerator.showPaket();
+        String paket = in.nextLine();
+
+        System.out.println("Masukkan berat cucian Anda [Kg]: ");
+        String beratInput = in.nextLine();
+        int berat = Integer.parseInt(beratInput);
+
+        if (berat < 2) {
+            System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
+            berat = 2;
+        }
+
+        Nota nota = new Nota(super.loginMember, berat, paket, tanggalMasuk);
+        nota.setIdNota(idNota);
+        idNota++;
+
+        LaundryService cuci = new CuciService();
+        nota.addService(cuci);
+
+        System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\n"+
+                            "Hanya tambah 1000 / kg :0\n"+
+                            "[Ketik x untuk tidak mau]: ");
+        String setrikaCucian = in.next();
+        if (!setrikaCucian.equals("x")) {
+            LaundryService setrika = new SetrikaService();
+            nota.addService(setrika);
+        }
+
+        System.out.print("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\n"+
+                            "Cuma 2000 / 4kg, kemudian 500 / kg\n"+
+                            "[Ketik x untuk tidak mau]: ");
+        String antarCucian = in.next();
+        if (!antarCucian.equals("x")) {
+            LaundryService antar = new AntarService();
+            nota.addService(antar);
+        }
+
+        super.loginMember.addNota(nota);
+        NotaManager.addNota(nota);
+        System.out.println("Nota berhasil dibuat!");
+    }
+
+    public void printNota() {
+        for (Nota nota: NotaManager.notaList) {
+            System.out.println(nota);
+        }
     }
 }
