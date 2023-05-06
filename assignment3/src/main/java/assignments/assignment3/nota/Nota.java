@@ -14,7 +14,6 @@ public class Nota {
     private String paket;
     private LaundryService[] services = new LaundryService[0];
     private long baseHarga;
-    private long harga;
     private int sisaHariPengerjaan;
     private int hariKerja;
     private int berat;
@@ -25,7 +24,6 @@ public class Nota {
     static public int totalNota;
 
     public Nota(Member member, int berat, String paket, String tanggalMasuk) {
-        //TODO
         this.member = member;
         this.berat = berat;
         this.paket = paket;
@@ -33,55 +31,61 @@ public class Nota {
 
         sisaHariPengerjaan = NotaGenerator.getHariPaket(paket);
         hariKerja = sisaHariPengerjaan;
-        harga = NotaGenerator.getHargaPaket(paket);
+        baseHarga = NotaGenerator.getHargaPaket(paket);
     }
 
     public void addService(LaundryService service) {
-        //TODO
         services = Arrays.copyOf(services, services.length + 1);
         services[services.length - 1] = service;
     }
 
     public String kerjakan() {
-        // TODO
+        //TODO: masih error
         String mengerjakan = "";
         for (LaundryService service: services) {
             if (service instanceof AntarService) {
                 LaundryService antar = new AntarService();
-                mengerjakan = antar.doWork();
+                if (!antar.isDone()) {
+                    mengerjakan = antar.doWork();
+                }
             } else if (service instanceof CuciService) {
                 LaundryService cuci = new CuciService();
-                mengerjakan = cuci.doWork();
-            } else {
+                if (!cuci.isDone()) {
+                    mengerjakan = cuci.doWork();
+                }
+            } else if (service instanceof SetrikaService) {
                 LaundryService setrika = new SetrikaService();
-                mengerjakan = setrika.doWork();
+                if (!setrika.isDone()) {
+                    mengerjakan = setrika.doWork();
+                }
+            } else {
+                mengerjakan = "Sudah selesai.";
             }
         }
         return mengerjakan;
     }
 
     public void toNextDay() {
-        // TODO: masih error
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 1);
+        this.sisaHariPengerjaan--;
     }
 
     public long calculateHarga() {
-        // TODO
-        baseHarga += getHarga() * getBerat();
+        long harga = 0;
+
+        harga += getHarga() * getBerat();
 
         for (LaundryService service: services) {
-            baseHarga += service.getHarga(getBerat());
+            harga += service.getHarga(getBerat());
         }
 
         if (!isDone) {
             if (sisaHariPengerjaan < 0) {
-                baseHarga -= (Math.abs(getSisaHariPengerjaan()) * 2000);
+                harga -= (Math.abs(getSisaHariPengerjaan()) * 2000);
                 terlambat = true;
             }
         }
     
-        return baseHarga;
+        return harga;
     }
 
     public String getNotaStatus() {
@@ -94,14 +98,9 @@ public class Nota {
     public void setIdNota(int id) {
         this.id = id;
     }
-
-    public void setSisaHariPengerjaan() {
-        this.sisaHariPengerjaan--;
-    }
     
     @Override
     public String toString() {
-        //TODO
         //Menginisiasi class SimpleDateFormat dan Calendar untuk menghitung tanggalSelesai
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
@@ -125,7 +124,7 @@ public class Nota {
         nota += String.format("Tanggal Selesai : %s\n", fmt.format(cal.getTime()));
         nota += String.format("--- SERVICE LIST ---\n");
         for (LaundryService service: services) {
-            nota += String.format("- %s @ Rp.%d\n", service.getServiceName(), service.getHarga(getBerat()));
+            nota += String.format("-%s @ Rp.%d\n", service.getServiceName(), service.getHarga(getBerat()));
         }
         nota += String.format("Harga Akhir: %d ", calculateHarga());
         if (terlambat) {
@@ -160,7 +159,7 @@ public class Nota {
     }
 
     public long getHarga() {
-        return harga;
+        return baseHarga;
     }
 
     public int getIdNota() {
