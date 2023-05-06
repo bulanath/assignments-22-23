@@ -29,10 +29,9 @@ public class EmployeeSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
-        // TODO
         switch (choice) {
-            // case 1 -> generateNota();
-            // case 2 -> printNota();
+            case 1 -> cuciTime();
+            case 2 -> displayNotaStatus();
             case 3 -> logout = true;
             default -> System.out.println("Pilihan tidak valid, silakan coba lagi.");
         }
@@ -47,5 +46,23 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("1. It's nyuci time");
         System.out.println("2. Display List Nota");
         System.out.println("3. Logout");
+    }
+
+    public void cuciTime() {
+        //TODO: masih error kerjakannya
+        String output = "";
+        System.out.println(String.format("Stand back! [nama] beginning to nyuci!"));
+        for (Nota nota: notaList) {
+            output += String.format("Nota %d : %s\n", nota.getIdNota(), nota.kerjakan());
+        }
+        System.out.println(output);
+    }
+
+    public void displayNotaStatus() {
+        String output = "";
+        for (Nota nota: notaList) {
+            output += String.format("Nota %d : %s\n", nota.getIdNota(), nota.getNotaStatus());
+        }
+        System.out.print(output);
     }
 }
