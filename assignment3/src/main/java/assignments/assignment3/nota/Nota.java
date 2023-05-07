@@ -1,9 +1,6 @@
 package assignments.assignment3.nota;
 import assignments.assignment1.NotaGenerator;
-import assignments.assignment3.nota.service.AntarService;
-import assignments.assignment3.nota.service.CuciService;
 import assignments.assignment3.nota.service.LaundryService;
-import assignments.assignment3.nota.service.SetrikaService;
 import assignments.assignment3.user.Member;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -40,29 +37,25 @@ public class Nota {
     }
 
     public String kerjakan() {
-        //TODO: masih error
-        String mengerjakan = "";
         for (LaundryService service: services) {
-            if (service instanceof AntarService) {
-                LaundryService antar = new AntarService();
-                if (!antar.isDone()) {
-                    mengerjakan = antar.doWork();
+            if (!service.isDone()) {
+                String mengerjakan = service.doWork();
+                if (isServiceDone()) {
+                        this.isDone = true;
                 }
-            } else if (service instanceof CuciService) {
-                LaundryService cuci = new CuciService();
-                if (!cuci.isDone()) {
-                    mengerjakan = cuci.doWork();
-                }
-            } else if (service instanceof SetrikaService) {
-                LaundryService setrika = new SetrikaService();
-                if (!setrika.isDone()) {
-                    mengerjakan = setrika.doWork();
-                }
-            } else {
-                mengerjakan = "Sudah selesai.";
+                return String.format("Nota %d : %s", getIdNota(), mengerjakan);
             }
         }
-        return mengerjakan;
+        return String.format("Nota %d : Sudah selesai.", getIdNota());
+    }
+
+    public boolean isServiceDone() {
+        for (LaundryService service: services) {
+            if (!service.isDone()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void toNextDay() {
@@ -78,11 +71,15 @@ public class Nota {
             harga += service.getHarga(getBerat());
         }
 
-        if (!isDone) {
-            if (sisaHariPengerjaan < 0) {
+        if (!isDone || this.terlambat == true) {
+            if (this.sisaHariPengerjaan < 0) {
+                this.terlambat = true;
                 harga -= (Math.abs(getSisaHariPengerjaan()) * 2000);
-                terlambat = true;
             }
+        }
+
+        if (harga < 0) {
+            harga = 0;
         }
     
         return harga;
@@ -90,9 +87,9 @@ public class Nota {
 
     public String getNotaStatus() {
         if (!isDone()) {
-            return "Belum selesai.";
+            return String.format("Nota %d : Belum selesai.", getIdNota());
         }
-        return "Sudah selesai.";
+        return String.format("Nota %d : Sudah selesai.", getIdNota());
     }
 
     public void setIdNota(int id) {
@@ -120,49 +117,51 @@ public class Nota {
         nota += String.format("Paket : %s\n", getPaket());
         nota += "Harga :\n";
         nota += String.format("%d kg x %d = %d\n", getBerat(), getHarga(), getBerat() * getHarga());
-        nota += String.format("Tanggal Terima  : %s\n", getTanggal());
-        nota += String.format("Tanggal Selesai : %s\n", fmt.format(cal.getTime()));
+        nota += String.format("tanggal terima  : %s\n", getTanggal());
+        nota += String.format("tanggal selesai : %s\n", fmt.format(cal.getTime()));
         nota += String.format("--- SERVICE LIST ---\n");
         for (LaundryService service: services) {
             nota += String.format("-%s @ Rp.%d\n", service.getServiceName(), service.getHarga(getBerat()));
         }
         nota += String.format("Harga Akhir: %d ", calculateHarga());
-        if (terlambat) {
-            nota += String.format("Ada kompensasi keterlambatan %d * 2000 hari\n", Math.abs(sisaHariPengerjaan));
+        if (this.terlambat) {
+            nota += String.format("Ada kompensasi keterlambatan %d * 2000 hari", Math.abs(sisaHariPengerjaan));
         }
+        nota += "\n";
         return nota;
     }
     
+    
     // Dibawah ini adalah getter
     public String getPaket() {
-        return paket;
+        return this.paket;
     }
-
+    
     public int getBerat() {
-        return berat;
+        return this.berat;
     }
-
+    
     public String getTanggal() {
-        return tanggalMasuk;
+        return this.tanggalMasuk;
     }
-
+    
     public int getSisaHariPengerjaan() {
-        return sisaHariPengerjaan;
+        return this.sisaHariPengerjaan;
     }
     
     public boolean isDone() {
-        return isDone;
+        return this.isDone;
     }
-
+    
     public LaundryService[] getServices() {
-        return services;
+        return this.services;
     }
-
+    
     public long getHarga() {
-        return baseHarga;
+        return this.baseHarga;
     }
 
     public int getIdNota() {
-        return id;
+        return this.id;
     }
 }
