@@ -1,8 +1,10 @@
 package assignments.assignment3.nota;
+
 import assignments.assignment1.NotaGenerator;
 import assignments.assignment3.nota.service.CuciService;
 import assignments.assignment3.nota.service.LaundryService;
 import assignments.assignment3.user.Member;
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -18,8 +20,9 @@ public class Nota {
     private int id;
     private String tanggalMasuk;
     private boolean isDone;
+    private int kompensasi;
     private boolean terlambat;
-    static public int totalNota = 0;
+    static public int totalNota;
 
     public Nota(Member member, int berat, String paket, String tanggalMasuk) {
         this.member = member;
@@ -34,24 +37,37 @@ public class Nota {
         totalNota++;
     }
 
+    /**
+     * Menambahkan service yang dipakai ke array services.
+     */
     public void addService(LaundryService service) {
         services = Arrays.copyOf(services, services.length + 1);
         services[services.length - 1] = service;
     }
 
+    /**
+     * Mengubah status pengerjaan nota setelah dikerjakan oleh employee.
+     */
     public String kerjakan() {
         for (LaundryService service: services) {
+
+            //Mengerjakan service jika belum dikerjakan.
             if (!service.isDone()) {
                 String mengerjakan = service.doWork();
                 return String.format("Nota %d : %s", getIdNota(), mengerjakan);
             }
         }
+
+        //Mengubah boolean isDone jika seluruh service yang dipakai telah dikerjakan.
         if (isServiceDone()) {
                 this.isDone = true;
             }   
         return String.format("Nota %d : Sudah selesai.", getIdNota());
     }
 
+    /**
+     * Memastikan apakah seluruh service sudah dikerjakan atau belum.
+     */
     public boolean isServiceDone() {
         for (LaundryService service: services) {
             if (!service.isDone()) {
@@ -61,33 +77,46 @@ public class Nota {
         return true;
     }
 
+    /**
+     * Mengurangi sisa hari pengerjaan jika ke hari selanjutnya.
+     */
     public void toNextDay() {
         this.sisaHariPengerjaan--;
     }
 
+    /**
+     * Menghitung harga laundry.
+     */
     public long calculateHarga() {
         long harga = 0;
 
+        //Harga cucian
         harga += getHarga() * getBerat();
 
+        //Harga service yang dipakai
         for (LaundryService service: services) {
             harga += service.getHarga(getBerat());
         }
 
-        if (!isDone || this.terlambat == true) {
-            if (this.sisaHariPengerjaan < 0) {
-                this.terlambat = true;
-                harga -= (Math.abs(getSisaHariPengerjaan()) * 2000);
-            }
+        if (!isDone() && getSisaHariPengerjaan() < 0) {
+            this.terlambat = true;
+            this.kompensasi = Math.abs(this.sisaHariPengerjaan);
         }
 
+        if (kompensasi > 0) {
+            harga -= kompensasi * 2000;
+        }
+        
+        //Menjadikan harga 0 jika kompensasi membuat harga menjadi negatif.
         if (harga < 0) {
             harga = 0;
         }
-    
         return harga;
     }
 
+    /**
+     * Mendapatkan status nota laundry.
+     */
     public String getNotaStatus() {
         if (isServiceDone()) {
             return String.format("Nota %d : Sudah selesai.", getIdNota());
@@ -95,19 +124,22 @@ public class Nota {
         return String.format("Nota %d : Belum selesai.", getIdNota());
     }
     
+    /**
+     * Mengeluarkan output nota laundry.
+     */
     @Override
     public String toString() {
-        //Menginisiasi class SimpleDateFormat dan Calendar untuk menghitung tanggalSelesai
+        //Menginisiasi class SimpleDateFormat dan Calendar untuk menghitung tanggal selesai.
         SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
         Calendar cal = Calendar.getInstance();
         
-        //Menyesuaikan tanggalMasuk ke format Calendar
+        //Menyesuaikan tanggalMasuk ke format Calendar.
         int year = Integer.parseInt(tanggalMasuk.substring(6));
         int month = Integer.parseInt(tanggalMasuk.substring(3, 5)) - 1;
         int date = Integer.parseInt(tanggalMasuk.substring(0, 2));
         cal.set(year, month, date);
         
-        //Menambah hari sesuai dengan paket laundry
+        //Menambah hari sesuai dengan paket laundry.
         cal.add(Calendar.DATE, hariKerja);
         
         String nota = "";
@@ -130,8 +162,22 @@ public class Nota {
         return nota;
     }
     
+    /**
+     * Menentukan apakah service laundry sudah selesai apa belum.
+     */
+    public boolean isDone() {
+        this.isDone = true;
+        for (LaundryService service: services) {
+            if (!service.isDone()) {
+                this.isDone = false;
+            }
+        }
+        return this.isDone;
+    }
     
-    // Dibawah ini adalah getter
+    /**
+     * Method getter.
+     */
     public String getPaket() {
         return this.paket;
     }
@@ -146,16 +192,6 @@ public class Nota {
     
     public int getSisaHariPengerjaan() {
         return this.sisaHariPengerjaan;
-    }
-    
-    public boolean isDone() {
-        this.isDone = true;
-        for (LaundryService service: services) {
-            if (!service.isDone()) {
-                this.isDone = false;
-            }
-        }
-        return this.isDone;
     }
     
     public LaundryService[] getServices() {
