@@ -1,4 +1,5 @@
 package assignments.assignment3.user.menu;
+
 import assignments.assignment3.nota.Nota;
 import assignments.assignment3.nota.NotaManager;
 import assignments.assignment3.nota.service.LaundryService;
@@ -51,6 +52,9 @@ public class MemberSystem extends SystemCLI {
         memberList[memberList.length - 1] = member;
     }
 
+    /**
+     * Menginisialisasi object Nota dan generate nota laundry.
+     */
     public void generateNota() {
         String tanggalMasuk = fmt.format(cal.getTime());
 
@@ -67,12 +71,15 @@ public class MemberSystem extends SystemCLI {
             berat = 2;
         }
         
+        //Inisialisasi object nota.
         Nota nota = new Nota(loginMember, berat, paket, tanggalMasuk);
 
         System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\n"+
         "Hanya tambah 1000 / kg :0\n"+
         "[Ketik x untuk tidak mau]: ");
         String setrikaCucian = in.nextLine();
+
+        //Menambahkan service setrika laundry ke object nota.
         if (!setrikaCucian.equalsIgnoreCase("x")) {
             LaundryService setrika = new SetrikaService();
             nota.addService(setrika);
@@ -82,16 +89,22 @@ public class MemberSystem extends SystemCLI {
         "Cuma 2000 / 4kg, kemudian 500 / kg\n"+
         "[Ketik x untuk tidak mau]: ");
         String antarCucian = in.nextLine();
+
+        //Menambahkan service antar laundry ke object nota.
         if (!antarCucian.equalsIgnoreCase("x")) {
             LaundryService antar = new AntarService();
             nota.addService(antar);
         }
         
+        //Menambahkan nota ke array.
         super.loginMember.addNota(nota);
         NotaManager.addNota(nota);
         System.out.println("Nota berhasil dibuat!");
     }
 
+    /**
+     * Mencetak nota laundry milik member.
+     */
     public void printNota() {
         for (Nota nota: super.loginMember.getNotaList()) {
             System.out.println(nota);

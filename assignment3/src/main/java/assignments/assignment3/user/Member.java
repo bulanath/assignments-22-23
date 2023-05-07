@@ -1,6 +1,9 @@
 package assignments.assignment3.user;
+
 import assignments.assignment3.nota.Nota;
+
 import java.util.Arrays;
+
 public class Member {
     protected String id;
     protected String password;
@@ -47,7 +50,9 @@ public class Member {
         return false;
     }
 
-    // Dibawah ini adalah getter
+    /**
+     * Method getter.
+     */
     public String getNama() {
         return nama;
     }

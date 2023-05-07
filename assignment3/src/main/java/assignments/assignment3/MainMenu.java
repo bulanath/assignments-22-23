@@ -95,7 +95,7 @@ public class MainMenu {
     }
 
     /**
-     * Menampilkan menu
+     * Menampilkan menu.
      */
     private void displayMenu() {
         System.out.println("\nSelamat datang di CuciCuci System!");

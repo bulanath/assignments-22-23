@@ -18,7 +18,7 @@ public class LoginManager {
     /**
      * Method mapping dari ke SystemCLI yang sesuai.
      *
-     * @param id -> ID dari user yang akan menggunakan SystemCLI
+     * @param id -> ID dari user yang akan menggunakan SystemCLI.
      * @return SystemCLI object yang sesuai dengan ID, null if  ID tidak ditemukan.
      */
     public SystemCLI getSystem(String id){
@@ -41,9 +41,13 @@ public class LoginManager {
      */
     public Member register(String nama, String noHp, String password) {
         String idUser = NotaGenerator.generateId(nama, noHp);
+
+        //Mendeteksi jika id duplikat atau tidak.
         if (memberSystem.isMemberExist(idUser)) {
             return null;
         }
+
+        //Inisialisasi objek Member dan menambahkan ke array.
         Member member = new Member(nama, idUser, password);
         memberSystem.addMember(member);
         return member;

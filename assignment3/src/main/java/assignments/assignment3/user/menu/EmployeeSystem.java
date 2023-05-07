@@ -7,7 +7,6 @@ import assignments.assignment3.user.Member;
 import static assignments.assignment3.nota.NotaManager.notaList;
 
 public class EmployeeSystem extends SystemCLI {
-
     /**
      * Membuat object baru EmployeeSystem dan mendaftarkan Employee pada CuciCuci
      */
@@ -48,6 +47,9 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("3. Logout");
     }
 
+    /**
+     * Mengerjakan laundry sesuai dengan service yang dipakai.
+     */
     public void cuciTime() {
         System.out.println(String.format("Stand back! %s beginning to nyuci!", super.loginMember.getNama()));
         for (Nota nota: notaList) {
@@ -55,6 +57,9 @@ public class EmployeeSystem extends SystemCLI {
         }
     }
 
+    /**
+     * Mencetak status pengerjaan laundry tiap nota.
+     */
     public void displayNotaStatus() {
         for (Nota nota: notaList) {
             System.out.println(nota.getNotaStatus());
