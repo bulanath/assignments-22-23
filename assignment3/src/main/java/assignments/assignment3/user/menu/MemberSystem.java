@@ -2,20 +2,17 @@ package assignments.assignment3.user.menu;
 import assignments.assignment3.nota.Nota;
 import assignments.assignment3.nota.NotaManager;
 import assignments.assignment3.nota.service.LaundryService;
-import assignments.assignment3.nota.service.CuciService;
 import assignments.assignment3.nota.service.AntarService;
 import assignments.assignment3.nota.service.SetrikaService;
 import assignments.assignment3.user.Member;
 import assignments.assignment1.NotaGenerator;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
 import java.util.Arrays;
 
+import static assignments.assignment3.nota.NotaManager.cal;
+import static assignments.assignment3.nota.NotaManager.fmt;
+
 public class MemberSystem extends SystemCLI {
-    private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-    private static Calendar cal = Calendar.getInstance();
-    private static int idNota = 0;
-    
     /**
      * Memproses pilihan dari Member yang masuk ke sistem ini sesuai dengan menu specific.
      *
@@ -70,17 +67,13 @@ public class MemberSystem extends SystemCLI {
             berat = 2;
         }
         
-        Nota nota = new Nota(super.loginMember, berat, paket, tanggalMasuk);
-        nota.setIdNota(idNota);
-        
-        LaundryService cuci = new CuciService();
-        nota.addService(cuci);
+        Nota nota = new Nota(loginMember, berat, paket, tanggalMasuk);
 
         System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\n"+
         "Hanya tambah 1000 / kg :0\n"+
         "[Ketik x untuk tidak mau]: ");
         String setrikaCucian = in.nextLine();
-        if (setrikaCucian != null && !setrikaCucian.equalsIgnoreCase("x")) {
+        if (!setrikaCucian.equalsIgnoreCase("x")) {
             LaundryService setrika = new SetrikaService();
             nota.addService(setrika);
         }
@@ -89,7 +82,7 @@ public class MemberSystem extends SystemCLI {
         "Cuma 2000 / 4kg, kemudian 500 / kg\n"+
         "[Ketik x untuk tidak mau]: ");
         String antarCucian = in.nextLine();
-        if (antarCucian != null && !antarCucian.equalsIgnoreCase("x")) {
+        if (!antarCucian.equalsIgnoreCase("x")) {
             LaundryService antar = new AntarService();
             nota.addService(antar);
         }
@@ -97,12 +90,10 @@ public class MemberSystem extends SystemCLI {
         super.loginMember.addNota(nota);
         NotaManager.addNota(nota);
         System.out.println("Nota berhasil dibuat!");
-
-        idNota++;
     }
 
     public void printNota() {
-        for (Nota nota: NotaManager.notaList) {
+        for (Nota nota: super.loginMember.getNotaList()) {
             System.out.println(nota);
         }
     }

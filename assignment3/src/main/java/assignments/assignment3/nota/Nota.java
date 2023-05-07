@@ -1,5 +1,6 @@
 package assignments.assignment3.nota;
 import assignments.assignment1.NotaGenerator;
+import assignments.assignment3.nota.service.CuciService;
 import assignments.assignment3.nota.service.LaundryService;
 import assignments.assignment3.user.Member;
 import java.text.SimpleDateFormat;
@@ -18,17 +19,19 @@ public class Nota {
     private String tanggalMasuk;
     private boolean isDone;
     private boolean terlambat;
-    static public int totalNota;
+    static public int totalNota = 0;
 
     public Nota(Member member, int berat, String paket, String tanggalMasuk) {
         this.member = member;
         this.berat = berat;
         this.paket = paket;
         this.tanggalMasuk = tanggalMasuk;
-
-        sisaHariPengerjaan = NotaGenerator.getHariPaket(paket);
-        hariKerja = sisaHariPengerjaan;
-        baseHarga = NotaGenerator.getHargaPaket(paket);
+        this.id = totalNota;
+        this.sisaHariPengerjaan = NotaGenerator.getHariPaket(paket);
+        this.hariKerja = sisaHariPengerjaan;
+        this.baseHarga = NotaGenerator.getHargaPaket(paket);
+        addService(new CuciService());
+        totalNota++;
     }
 
     public void addService(LaundryService service) {
@@ -40,12 +43,12 @@ public class Nota {
         for (LaundryService service: services) {
             if (!service.isDone()) {
                 String mengerjakan = service.doWork();
-                if (isServiceDone()) {
-                        this.isDone = true;
-                }
                 return String.format("Nota %d : %s", getIdNota(), mengerjakan);
             }
         }
+        if (isServiceDone()) {
+                this.isDone = true;
+            }   
         return String.format("Nota %d : Sudah selesai.", getIdNota());
     }
 
@@ -86,14 +89,10 @@ public class Nota {
     }
 
     public String getNotaStatus() {
-        if (!isDone()) {
-            return String.format("Nota %d : Belum selesai.", getIdNota());
+        if (isServiceDone()) {
+            return String.format("Nota %d : Sudah selesai.", getIdNota());
         }
-        return String.format("Nota %d : Sudah selesai.", getIdNota());
-    }
-
-    public void setIdNota(int id) {
-        this.id = id;
+        return String.format("Nota %d : Belum selesai.", getIdNota());
     }
     
     @Override
@@ -113,7 +112,7 @@ public class Nota {
         
         String nota = "";
         nota += String.format("[ID Nota = %d]\n", getIdNota());
-        nota += String.format("ID   : %s\n", this.member.getId());
+        nota += String.format("ID    : %s\n", member.getId());
         nota += String.format("Paket : %s\n", getPaket());
         nota += "Harga :\n";
         nota += String.format("%d kg x %d = %d\n", getBerat(), getHarga(), getBerat() * getHarga());
@@ -150,6 +149,12 @@ public class Nota {
     }
     
     public boolean isDone() {
+        this.isDone = true;
+        for (LaundryService service: services) {
+            if (!service.isDone()) {
+                this.isDone = false;
+            }
+        }
         return this.isDone;
     }
     
