@@ -98,11 +98,13 @@ public class Nota {
             harga += service.getHarga(getBerat());
         }
 
+        //Menghitung banyaknya hari keterlambatan.
         if (!isDone() && getSisaHariPengerjaan() < 0) {
             this.terlambat = true;
             this.kompensasi = Math.abs(this.sisaHariPengerjaan);
         }
 
+        //Mengurangi harga akibat keterlambatan.
         if (kompensasi > 0) {
             harga -= kompensasi * 2000;
         }
