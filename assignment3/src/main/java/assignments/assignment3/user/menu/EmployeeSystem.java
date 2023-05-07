@@ -49,20 +49,15 @@ public class EmployeeSystem extends SystemCLI {
     }
 
     public void cuciTime() {
-        //TODO: masih error kerjakannya
-        String output = "";
-        System.out.println(String.format("Stand back! [nama] beginning to nyuci!"));
+        System.out.println(String.format("Stand back! %s beginning to nyuci!", super.loginMember.getNama()));
         for (Nota nota: notaList) {
-            output += String.format("Nota %d : %s\n", nota.getIdNota(), nota.kerjakan());
+            System.out.println(nota.kerjakan());
         }
-        System.out.println(output);
     }
 
     public void displayNotaStatus() {
-        String output = "";
         for (Nota nota: notaList) {
-            output += String.format("Nota %d : %s\n", nota.getIdNota(), nota.getNotaStatus());
+            System.out.println(nota.getNotaStatus());
         }
-        System.out.print(output);
     }
 }
