@@ -69,35 +69,36 @@ public class MemberSystem extends SystemCLI {
             System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
             berat = 2;
         }
-
+        
         Nota nota = new Nota(super.loginMember, berat, paket, tanggalMasuk);
         nota.setIdNota(idNota);
-        idNota++;
-
+        
         LaundryService cuci = new CuciService();
         nota.addService(cuci);
 
         System.out.print("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\n"+
-                            "Hanya tambah 1000 / kg :0\n"+
-                            "[Ketik x untuk tidak mau]: ");
-        String setrikaCucian = in.next();
-        if (!setrikaCucian.equals("x")) {
+        "Hanya tambah 1000 / kg :0\n"+
+        "[Ketik x untuk tidak mau]: ");
+        String setrikaCucian = in.nextLine();
+        if (setrikaCucian != null && !setrikaCucian.equalsIgnoreCase("x")) {
             LaundryService setrika = new SetrikaService();
             nota.addService(setrika);
         }
-
+        
         System.out.print("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\n"+
-                            "Cuma 2000 / 4kg, kemudian 500 / kg\n"+
-                            "[Ketik x untuk tidak mau]: ");
-        String antarCucian = in.next();
-        if (!antarCucian.equals("x")) {
+        "Cuma 2000 / 4kg, kemudian 500 / kg\n"+
+        "[Ketik x untuk tidak mau]: ");
+        String antarCucian = in.nextLine();
+        if (antarCucian != null && !antarCucian.equalsIgnoreCase("x")) {
             LaundryService antar = new AntarService();
             nota.addService(antar);
         }
-
+        
         super.loginMember.addNota(nota);
         NotaManager.addNota(nota);
         System.out.println("Nota berhasil dibuat!");
+
+        idNota++;
     }
 
     public void printNota() {
