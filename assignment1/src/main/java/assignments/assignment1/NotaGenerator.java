@@ -110,9 +110,9 @@ public class NotaGenerator {
         nota += "Paket : " + paket + "\n";
         nota += "Harga :\n";
         nota += String.format("%d kg x %d = %d\n", berat, getHargaPaket(paket), (berat * getHargaPaket(paket)));
-        nota += "tanggal terima  : " + tanggalTerima + "\n";
+        nota += "Tanggal Terima  : " + tanggalTerima + "\n";
         cal.add(Calendar.DATE, getHariPaket(paket));
-        nota += "tanggal selesai : " + formatter.format(cal.getTime());
+        nota += "Tanggal Selesai : " + formatter.format(cal.getTime());
 
         return nota;
     }
