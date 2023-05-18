@@ -20,6 +20,7 @@ public class LoginGUI extends JPanel {
     private JButton loginButton;
     private JButton backButton;
     private LoginManager loginManager;
+    private Icon mad = new ImageIcon(getClass().getResource("img/mad.png"));
 
     public LoginGUI(LoginManager loginManager) {
         super(new BorderLayout()); // Setup layout, Feel free to make any changes
@@ -92,7 +93,7 @@ public class LoginGUI extends JPanel {
         boolean login = MainFrame.getInstance().login(idStr, passwordStr);
 
         if (!login) {
-            JOptionPane.showMessageDialog(this, "Maaf, password atau username yang Anda masukan salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Password atau username yang Anda masukan salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE, mad);
         } else {
             if (loginManager.getSystem(idStr) instanceof EmployeeSystem) {
                 MainFrame.getInstance().navigateTo(EmployeeSystemGUI.KEY);

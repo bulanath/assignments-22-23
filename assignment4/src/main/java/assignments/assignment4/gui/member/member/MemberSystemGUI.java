@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 public class MemberSystemGUI extends AbstractMemberGUI {
     public static final String KEY = "MEMBER";
+    private Icon sad = new ImageIcon(getClass().getResource("../../img/sad.png"));
 
     public MemberSystemGUI(SystemCLI systemCLI) {
         super(systemCLI);
@@ -59,7 +60,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     private void showDetailNota() {
         if (loggedInMember.getNotaList().length == 0) {
-            JOptionPane.showMessageDialog(this, "Anda belum pernah laundry di CuciCuci T_T", "Nota Kosong", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Anda belum pernah laundry di CuciCuci T_T", "Nota Kosong", JOptionPane.INFORMATION_MESSAGE, sad);
             return;
         }
 

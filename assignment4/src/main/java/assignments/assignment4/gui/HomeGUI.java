@@ -17,6 +17,7 @@ public class HomeGUI extends JPanel {
     private JButton loginButton;
     private JButton registerButton;
     private JButton toNextDayButton;
+    private Icon sleep = new ImageIcon(getClass().getResource("img/sleep.png"));
 
     public HomeGUI(){
         super(new BorderLayout()); // Setup layout, Feel free to make any changes
@@ -89,6 +90,6 @@ public class HomeGUI extends JPanel {
     private void handleNextDay() {
         toNextDay();
         dateLabel.setText(String.format("Hari ini: %s", fmt.format(cal.getTime())));
-        JOptionPane.showMessageDialog(null, "Kamu tidur hari ini... zzz...", "Next Day", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Kamu tidur hari ini... zzz...", "Next Day", JOptionPane.INFORMATION_MESSAGE, sleep);
     }
 }

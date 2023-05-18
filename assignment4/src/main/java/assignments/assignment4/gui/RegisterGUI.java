@@ -19,6 +19,9 @@ public class RegisterGUI extends JPanel {
     private JButton registerButton;
     private LoginManager loginManager;
     private JButton backButton;
+    private Icon mad = new ImageIcon(getClass().getResource("img/mad.png"));
+    private Icon angry = new ImageIcon(getClass().getResource("img/angry.png"));
+    private Icon cool = new ImageIcon(getClass().getResource("img/cool.png"));
 
     public RegisterGUI(LoginManager loginManager) {
         super(new BorderLayout()); // Setup layout, Feel free to make any changes
@@ -99,20 +102,20 @@ public class RegisterGUI extends JPanel {
         Member registeredMember = loginManager.register(nameStr, phoneStr, passwordStr);
         
         if (nameStr.isEmpty() || phoneStr.isEmpty() || passwordStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, String.format("Semua field di atas wajib diisi!"), "Empty Field", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, String.format("Semua field di atas wajib diisi!"), "Empty Field", JOptionPane.ERROR_MESSAGE, mad);
             return;
         }
         
         if (cekPhone) {
-            JOptionPane.showMessageDialog(this, String.format("Nomor handphone harus berisi angka!"), "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, String.format("Nomor handphone harus berisi angka!"), "Invalid Phone Number", JOptionPane.ERROR_MESSAGE, angry);
             phoneTextField.setText("");
             return;
         }
 
         if (registeredMember == null) {
-            JOptionPane.showMessageDialog(this, String.format("User dengan nama %s dan nomor hp %s sudah ada!", nameStr, phoneStr), "Registrasi Gagal", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, String.format("User dengan nama %s dan nomor hp %s sudah ada!", nameStr, phoneStr), "Registrasi Gagal", JOptionPane.ERROR_MESSAGE, angry);
         } else {
-            JOptionPane.showMessageDialog(this, String.format("Berhasil membuat user dengan ID %s!", registeredMember.getId()), "Registrasi Sukses", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, String.format("Berhasil membuat user dengan ID %s!", registeredMember.getId()), "Registrasi Sukses", JOptionPane.INFORMATION_MESSAGE, cool);
         }
         MainFrame.getInstance().navigateTo(HomeGUI.KEY);
         nameTextField.setText("");
