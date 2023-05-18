@@ -13,6 +13,8 @@ public class EmployeeSystem extends SystemCLI {
                 new Employee("Depram", "musiktualembut"),
                 new Employee("Lita Duo", "gitCommitPush"),
                 new Employee("Ivan Hoshimachi", "SuamiSahSuisei"),
+                new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
+                new Employee("Regret", "FansBeratKanaArima")
         };
     }
 
