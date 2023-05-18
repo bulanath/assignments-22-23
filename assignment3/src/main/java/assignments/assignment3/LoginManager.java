@@ -15,12 +15,6 @@ public class LoginManager {
         this.memberSystem = memberSystem;
     }
 
-    /**
-     * Method mapping dari ke SystemCLI yang sesuai.
-     *
-     * @param id -> ID dari user yang akan menggunakan SystemCLI.
-     * @return SystemCLI object yang sesuai dengan ID, null if  ID tidak ditemukan.
-     */
     public SystemCLI getSystem(String id){
         if(memberSystem.isMemberExist(id)){
             return memberSystem;
@@ -31,24 +25,13 @@ public class LoginManager {
         return null;
     }
 
-    /**
-     * Mendaftarkan member baru dengan informasi yang diberikan.
-     *
-     * @param nama -> Nama member.
-     * @param noHp -> Nomor handphone member.
-     * @param password -> Password akun member.
-     * @return Member object yang berhasil mendaftar, return null jika gagal mendaftar.
-     */
     public Member register(String nama, String noHp, String password) {
-        String idUser = NotaGenerator.generateId(nama, noHp);
-
-        //Mendeteksi jika id duplikat atau tidak.
-        if (memberSystem.isMemberExist(idUser)) {
+        String id = NotaGenerator.generateId(nama, noHp);
+        if(memberSystem.isMemberExist(id)){
             return null;
         }
 
-        //Inisialisasi objek Member dan menambahkan ke array.
-        Member member = new Member(nama, idUser, password);
+        Member member = new Member(nama, id, password);
         memberSystem.addMember(member);
         return member;
     }

@@ -15,11 +15,6 @@ public class MainMenu {
     private final Scanner in;
     private final LoginManager loginManager;
 
-    /**
-     * Entry point for the CuciCuci System application.
-     *
-     * @param args command line arguments, bisa kalian ignore.
-     */
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu(new Scanner(System.in), new LoginManager(new EmployeeSystem(), new MemberSystem()));
         mainMenu.run();
@@ -30,9 +25,6 @@ public class MainMenu {
         this.loginManager = loginManager;
     }
 
-    /**
-     * Menjalankan main menu.
-     */
     public void run() {
         boolean exit = false;
         while (!exit) {
@@ -51,17 +43,11 @@ public class MainMenu {
         in.close();
     }
 
-    /**
-     * Skips ke hari selanjutnya dan mengupdate sistem.
-     */
     private void toNextDay() {
         System.out.println("Kamu tidur hari ini... zzz...");
         NotaManager.toNextDay();
     }
 
-    /**
-     * Mendaftarkan user pada sistem.
-     */
     void register() {
         System.out.println("Masukan nama Anda: ");
         String nama = in.nextLine();
@@ -78,9 +64,6 @@ public class MainMenu {
         System.out.printf("Berhasil membuat user dengan ID %s!\n", registeredMember.getId());
     }
 
-    /**
-     * Meminta user untuk login dan memulai SystemCLI yang sesuai.
-     */
     private void login() {
         System.out.print("Masukan ID Anda: ");
         String inputId = in.nextLine();
@@ -94,11 +77,10 @@ public class MainMenu {
         systemCLI.login(in, inputId, inputPassword);
     }
 
-    /**
-     * Menampilkan menu.
-     */
+
+
     private void displayMenu() {
-        System.out.println("\nSelamat datang di CuciCuci System!");
+        System.out.println("Selamat datang di CuciCuci System!");
         System.out.printf("Sekarang tanggal %s\n", fmt.format(cal.getTime()));
         System.out.println("1. Login");
         System.out.println("2. Register Member");
@@ -106,4 +88,5 @@ public class MainMenu {
         System.out.println("4. Exit");
         System.out.print("Apa yang ingin Anda lakukan hari ini? ");
     }
+
 }
