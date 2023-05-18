@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class AbstractMemberGUI extends JPanel implements Loginable{
+public abstract class AbstractMemberGUI extends JPanel implements Loginable {
     private JLabel welcomeLabel;
     private JLabel loggedInAsLabel;
     protected Member loggedInMember;
@@ -55,7 +55,7 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1.0;
         gbc.weighty = 0.5;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 5, 10, 5);
 
         for (int i = 0; i < buttons.length; i++) {
             JButton button = buttons[i];
@@ -88,7 +88,12 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * @return true jika ID dan password sesuai dengan instance member, false jika tidak.
      * */
     public boolean login(String id, String password) {
-        // TODO
+        loggedInMember = systemCLI.authUser(id, password);
+        if (loggedInMember != null) {
+            welcomeLabel.setText(String.format("Welcome! %s", loggedInMember.getNama()));
+            loggedInAsLabel.setText(String.format("Logged in as %s", loggedInMember.getId()));
+            return true;
+        }
         return false;
     }
 
