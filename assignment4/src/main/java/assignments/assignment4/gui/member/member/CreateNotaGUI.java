@@ -172,5 +172,9 @@ public class CreateNotaGUI extends JPanel {
      **/
     private void handleBack() {
         MainFrame.getInstance().navigateTo(MemberSystemGUI.KEY);
+        paketComboBox.setSelectedIndex(0);
+        beratTextField.setText("");
+        setrikaCheckBox.setSelected(false);
+        antarCheckBox.setSelected(false);
     }
 }

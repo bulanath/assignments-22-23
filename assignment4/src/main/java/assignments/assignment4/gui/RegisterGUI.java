@@ -88,6 +88,9 @@ public class RegisterGUI extends JPanel {
      **/
     private void handleBack() {
         MainFrame.getInstance().navigateTo(HomeGUI.KEY);
+        nameTextField.setText("");
+        phoneTextField.setText("");
+        passwordField.setText("");
     }
 
     /**

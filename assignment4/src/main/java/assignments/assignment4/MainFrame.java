@@ -1,4 +1,5 @@
 package assignments.assignment4;
+
 import assignments.assignment3.LoginManager;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
@@ -13,7 +14,7 @@ import assignments.assignment4.gui.member.member.MemberSystemGUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame {
     private static MainFrame instance;
     private final Loginable[] loginablePanel;
     private final MemberSystem memberSystem = new MemberSystem();
@@ -28,18 +29,21 @@ public class MainFrame extends JFrame{
     private final MemberSystemGUI memberSystemGUI = new MemberSystemGUI(memberSystem);
     private final CreateNotaGUI createNotaGUI = new CreateNotaGUI(memberSystemGUI);
 
-    private MainFrame(){
+    private MainFrame() {
         super("CuciCuciSystem");
+        Container c = getContentPane();
+        c.setBackground(Color.getHSBColor(199.2F, 42.9F, 94.1F));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 432);
-        setVisible(true);
-        loginablePanel = new Loginable[]{
-                employeeSystemGUI,
-                memberSystemGUI,
+        loginablePanel = new Loginable[] {
+            employeeSystemGUI,
+            memberSystemGUI,
         };
         initGUI();
         cards.show(mainPanel, HomeGUI.KEY);
+        setContentPane(c);
         add(mainPanel);
+        setVisible(true);
     }
 
     /**
@@ -56,11 +60,12 @@ public class MainFrame extends JFrame{
 
     /**
      * Method untuk mendapatkan instance MainFrame.
-     * Instance Class MainFrame harus diambil melalui method ini agar menjamin hanya terdapat satu Frame pada program.
+     * Instance Class MainFrame harus diambil melalui method ini agar menjamin hanya
+     * terdapat satu Frame pada program.
      *
      * @return instance dari class MainFrame
      **/
-    public static MainFrame getInstance(){
+    public static MainFrame getInstance() {
         if (instance == null) {
             instance = new MainFrame();
         }
@@ -72,23 +77,25 @@ public class MainFrame extends JFrame{
      *
      * @param page -> key dari halaman yang diinginkan.
      **/
-    public void navigateTo(String page){
+    public void navigateTo(String page) {
         cards.show(mainPanel, page);
     }
 
     /**
      * Method untuk login pada sistem.
-     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login: <p>
-     * - return boolean true <p>
-     * - menampilkan halaman yang sesuai <p>
+     * Jika gagal login akan mengembalikan boolean false dan jika berhasil login:
+     * <p>
+     * - return boolean true
+     * <p>
+     * - menampilkan halaman yang sesuai
+     * <p>
      *
-     * @param id -> ID dari pengguna
+     * @param id       -> ID dari pengguna
      * @param password -> password dari pengguna
      * @return boolean yang menandakan apakah login berhasil atau gagal.
      **/
-    public boolean login(String id, String password){
-        for (Loginable panel:
-                loginablePanel) {
+    public boolean login(String id, String password) {
+        for (Loginable panel : loginablePanel) {
             if (panel.login(id, password)) {
                 return true;
             }
@@ -99,9 +106,8 @@ public class MainFrame extends JFrame{
     /**
      * Method untuk logout dari sistem, kemudian menampilkan halaman Home.
      **/
-    public void logout(){
-        for (Loginable panel:
-                loginablePanel) {
+    public void logout() {
+        for (Loginable panel : loginablePanel) {
             panel.logout();
         }
         navigateTo(HomeGUI.KEY);
