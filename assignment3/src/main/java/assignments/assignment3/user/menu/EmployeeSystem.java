@@ -12,9 +12,7 @@ public class EmployeeSystem extends SystemCLI {
                 new Employee("Dek Depe", "akuDDP"),
                 new Employee("Depram", "musiktualembut"),
                 new Employee("Lita Duo", "gitCommitPush"),
-                new Employee("Ivan Hoshimachi", "SuamiSahSuisei"),
-                new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
-                new Employee("Regret", "FansBeratKanaArima")
+                new Employee("Ivan Hoshimachi", "SuamiSahSuisei")
         };
     }
 
@@ -50,5 +48,12 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("1. It's nyuci time");
         System.out.println("2. Display List Nota");
         System.out.println("3. Logout");
+    }
+
+    public void addEmployee(Employee[] employees) {
+        Employee[] updatedMemberList = new Employee[memberList.length + employees.length];
+        System.arraycopy(memberList, 0, updatedMemberList, 0, memberList.length);
+        System.arraycopy(employees, 0, updatedMemberList, memberList.length, employees.length);
+        memberList = updatedMemberList;
     }
 }
