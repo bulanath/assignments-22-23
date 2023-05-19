@@ -32,7 +32,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Button yang disediakan method ini BELUM memiliki ActionListener.
      *
      * @return Array of JButton, berisi button yang sudah stylize namun belum ada ActionListener.
-     * */
+     **/
     @Override
     protected JButton[] createButtons() {
         JButton laundryLabel = new JButton("Saya ingin laundry");
@@ -45,7 +45,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * sesuai dengan requirements MemberSystem.
      *
      * @return Array of ActionListener.
-     * */
+     **/
     @Override
     protected ActionListener[] createActionListeners() {
         return new ActionListener[]{
@@ -57,8 +57,9 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     /**
      * Menampilkan detail Nota milik loggedInMember.
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
-     * */
+     **/
     private void showDetailNota() {
+        //Dialog yang dikeluarkan jika Member belum pernah membuat nota.
         if (loggedInMember.getNotaList().length == 0) {
             JOptionPane.showMessageDialog(this, "Anda belum pernah laundry di CuciCuci T_T", "Nota Kosong", JOptionPane.INFORMATION_MESSAGE, sad);
             return;
@@ -70,9 +71,11 @@ public class MemberSystemGUI extends AbstractMemberGUI {
             notaStr += "\n";
         }
 
+        //Membuat text area untuk output nota.
         JTextArea notaOutput = new JTextArea(notaStr);
         notaOutput.setEditable(false);
 
+        //Inisialisasi JScrollPane agar dialog bisa di-scroll.
         JScrollPane scroll = new JScrollPane(notaOutput);
         scroll.setFont(new Font("monospaced", Font.PLAIN, 12));
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -87,7 +90,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
     /**
      * Pergi ke halaman CreateNotaGUI.
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
-     * */
+     **/
     private void createNota() {
         MainFrame.getInstance().navigateTo(CreateNotaGUI.KEY);
     }

@@ -20,9 +20,10 @@ public class HomeGUI extends JPanel {
     private Icon sleep = new ImageIcon(getClass().getResource("img/sleep.png"));
 
     public HomeGUI(){
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        //Set up layout.
+        super(new BorderLayout()); 
 
-        // Set up main panel, Feel free to make any changes
+        //Set up main panel.
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -33,35 +34,37 @@ public class HomeGUI extends JPanel {
 
     /**
      * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+     **/
     private void initGUI() {
+        //Inisialisasi elemen yang dibutuhkan.
         titleLabel = new JLabel("Selamat datang di CuciCuci System!");
         loginButton = new JButton("Login");
         registerButton = new JButton("Register");
         toNextDayButton = new JButton("Next Day");
         dateLabel = new JLabel(String.format("Hari ini: %s", fmt.format(cal.getTime())));
     
-        // Increase the font size of the titleLabel
+        //Menambah size titleLable.
         titleLabel.setFont(new Font("Arial", Font.BOLD, 26));
-    
+        
+        //Set up gbc.
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridx = 0;
-
-        gbc.insets = new Insets(10, 10, 20, 10); //Add spacing around the components
+        
+        //Menambahkan elemen ke panel.
+        gbc.insets = new Insets(10, 10, 20, 10);
         mainPanel.add(titleLabel, gbc);
 
-        gbc.insets = new Insets(20, 10, 20, 10); //Add spacing around the components
+        gbc.insets = new Insets(20, 10, 20, 10);
         mainPanel.add(loginButton, gbc);
         mainPanel.add(registerButton, gbc);
         mainPanel.add(toNextDayButton, gbc);
     
-        gbc.insets = new Insets(15, 0, 0, 0); //Add spacing above the dateLabel
+        gbc.insets = new Insets(15, 0, 0, 0);
         mainPanel.add(dateLabel, gbc);
 
+        //Menambahkan action listener untuk button menggunakan lambda.
         registerButton.addActionListener(e -> handleToRegister());
         loginButton.addActionListener(e -> handleToLogin());
         toNextDayButton.addActionListener(e -> handleNextDay());
@@ -70,7 +73,7 @@ public class HomeGUI extends JPanel {
     /**
      * Method untuk pergi ke halaman register.
      * Akan dipanggil jika pengguna menekan "registerButton"
-     * */
+     **/
     private static void handleToRegister() {
         MainFrame.getInstance().navigateTo(RegisterGUI.KEY);        
     }
@@ -78,7 +81,7 @@ public class HomeGUI extends JPanel {
     /**
      * Method untuk pergi ke halaman login.
      * Akan dipanggil jika pengguna menekan "loginButton"
-     * */
+     **/
     private static void handleToLogin() {
         MainFrame.getInstance().navigateTo(LoginGUI.KEY);
     }
@@ -86,7 +89,7 @@ public class HomeGUI extends JPanel {
     /**
      * Method untuk skip hari.
      * Akan dipanggil jika pengguna menekan "toNextDayButton"
-     * */
+     **/
     private void handleNextDay() {
         toNextDay();
         dateLabel.setText(String.format("Hari ini: %s", fmt.format(cal.getTime())));

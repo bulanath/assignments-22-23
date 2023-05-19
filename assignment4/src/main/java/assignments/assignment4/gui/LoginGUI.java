@@ -23,10 +23,11 @@ public class LoginGUI extends JPanel {
     private Icon mad = new ImageIcon(getClass().getResource("img/mad.png"));
 
     public LoginGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        //Set up layout.
+        super(new BorderLayout());
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        //Set up main panel.
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -37,10 +38,9 @@ public class LoginGUI extends JPanel {
 
     /**
      * Method untuk menginisialisasi GUI.
-     * Selama funsionalitas sesuai dengan soal, tidak apa apa tidak 100% sama.
-     * Be creative and have fun!
-     * */
+     **/
     private void initGUI() {
+        //Inisialisasi elemen yang dibutuhkan.
         idLabel = new JLabel("Masukan ID Anda:");
         idTextField = new JTextField(50);
         passwordLabel  = new JLabel("Masukan password Anda:");
@@ -48,11 +48,13 @@ public class LoginGUI extends JPanel {
         loginButton = new JButton("Login");
         backButton = new JButton("Kembali");
 
+        //Set up gbc.
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 0, 10, 0);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Menambahkan elemen ke panel.
         gbc.gridy = 0;
         gbc.gridx = 0;
         mainPanel.add(idLabel, gbc);
@@ -63,6 +65,7 @@ public class LoginGUI extends JPanel {
         gbc.gridy = 3;
         mainPanel.add(passwordField, gbc);
 
+        //Set up gbc untuk button dan menambahkannya ke panel.
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.NONE;
         gbc.gridy = 4;
@@ -70,6 +73,7 @@ public class LoginGUI extends JPanel {
         gbc.gridy = 5;
         mainPanel.add(backButton, gbc);
 
+        //Menambahkan action listener untuk button menggunakan lambda.
         loginButton.addActionListener(e -> handleLogin());
         backButton.addActionListener(e -> handleBack());
     } 
@@ -77,7 +81,7 @@ public class LoginGUI extends JPanel {
     /**
      * Method untuk kembali ke halaman home.
      * Akan dipanggil jika pengguna menekan "backButton"
-     * */
+     **/
     private void handleBack() {
         MainFrame.getInstance().navigateTo(HomeGUI.KEY);
     }
@@ -85,16 +89,19 @@ public class LoginGUI extends JPanel {
     /**
      * Method untuk login pada sistem.
      * Akan dipanggil jika pengguna menekan "loginButton"
-     * */
+     **/
     private void handleLogin() {
         String idStr = idTextField.getText();
         char[] passwordChar = passwordField.getPassword();
         String passwordStr = new String(passwordChar);
+
+        //Mengecek apakah id dan password pengguna benar.
         boolean login = MainFrame.getInstance().login(idStr, passwordStr);
 
         if (!login) {
             JOptionPane.showMessageDialog(this, "Password atau username yang Anda masukan salah!", "Login Gagal", JOptionPane.ERROR_MESSAGE, mad);
         } else {
+            //Menuju ke GUI EmployeeSystem/MemberSystem sesuai dengan instance milik user.
             if (loginManager.getSystem(idStr) instanceof EmployeeSystem) {
                 MainFrame.getInstance().navigateTo(EmployeeSystemGUI.KEY);
             } else if (loginManager.getSystem(idStr) instanceof MemberSystem) {
@@ -102,6 +109,7 @@ public class LoginGUI extends JPanel {
             }
         }
 
+        //Clear text field.
         idTextField.setText("");
         passwordField.setText("");
     }

@@ -29,7 +29,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Button yang disediakan method ini BELUM memiliki ActionListener.
      *
      * @return Array of JButton, berisi button yang sudah stylize namun belum ada ActionListener.
-     * */
+     **/
     @Override
     protected JButton[] createButtons() {
         JButton cuciLabel = new JButton("It's nyuci time");
@@ -42,7 +42,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * sesuai dengan requirements MemberSystem.
      *
      * @return Array of ActionListener.
-     * */
+     **/
     @Override
     protected ActionListener[] createActionListeners() {
         return new ActionListener[]{
@@ -54,7 +54,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     /**
      * Menampilkan semua Nota yang ada pada sistem.
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
-     * */
+     **/
     private void displayNota() {
         String notaStr = "";
         for (Nota nota: NotaManager.notaList) {
@@ -62,6 +62,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
             notaStr += "\n";
         }
 
+        //Output jika notaList masih kosong.
         if (NotaManager.notaList.length == 0) {
             JOptionPane.showMessageDialog(this, "Belum ada nota", "List Nota", JOptionPane.ERROR_MESSAGE, bored);
             return;
@@ -72,16 +73,17 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
     /**
      * Menampilkan dan melakukan action mencuci.
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
-     * */
+     **/
     private void cuci() {
         JOptionPane.showMessageDialog(this, String.format("Stand back! %s beginning to nyuci! \n", loggedInMember.getNama()), "Nyuci Time", JOptionPane.INFORMATION_MESSAGE, smiling);
-
+        
         String notaStr = "";
         for (Nota nota: NotaManager.notaList) {
             notaStr += nota.kerjakan();
             notaStr += "\n";
         }
         
+        //Output jika notaList masih kosong.
         if (NotaManager.notaList.length == 0) {
             JOptionPane.showMessageDialog(this, "Nothing to cuci here", "Nyuci Result", JOptionPane.ERROR_MESSAGE, bored);
             return;
