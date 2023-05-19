@@ -19,9 +19,6 @@ public class RegisterGUI extends JPanel {
     private JButton registerButton;
     private LoginManager loginManager;
     private JButton backButton;
-    private Icon mad = new ImageIcon(getClass().getResource("img/mad.png"));
-    private Icon angry = new ImageIcon(getClass().getResource("img/angry.png"));
-    private Icon cool = new ImageIcon(getClass().getResource("img/cool.png"));
 
     public RegisterGUI(LoginManager loginManager) {
         //Set up layout.
@@ -104,14 +101,14 @@ public class RegisterGUI extends JPanel {
         String nameStr = nameTextField.getText();
         String phoneStr = phoneTextField.getText();
         if (nameStr.isEmpty() || phoneStr.isEmpty() || passwordStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, String.format("Semua field di atas wajib diisi!"), "Empty Field", JOptionPane.ERROR_MESSAGE, mad);
+            JOptionPane.showMessageDialog(this, String.format("Semua field di atas wajib diisi!"), "Empty Field", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
         //Mengecek apakah nomor handphone berupa digit atau tidak.
         boolean cekPhone = phoneStr.matches(".*\\D.*");
         if (cekPhone) {
-            JOptionPane.showMessageDialog(this, String.format("Nomor handphone harus berisi angka!"), "Invalid Phone Number", JOptionPane.ERROR_MESSAGE, angry);
+            JOptionPane.showMessageDialog(this, String.format("Nomor handphone harus berisi angka!"), "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
             phoneTextField.setText("");
             return;
         }
@@ -119,9 +116,9 @@ public class RegisterGUI extends JPanel {
         //Membuat objek Member & mengecek apakah member belum ada atau duplikat.
         Member registeredMember = loginManager.register(nameStr, phoneStr, passwordStr);
         if (registeredMember == null) {
-            JOptionPane.showMessageDialog(this, String.format("User dengan nama %s dan nomor hp %s sudah ada!", nameStr, phoneStr), "Registrasi Gagal", JOptionPane.ERROR_MESSAGE, angry);
+            JOptionPane.showMessageDialog(this, String.format("User dengan nama %s dan nomor hp %s sudah ada!", nameStr, phoneStr), "Registrasi Gagal", JOptionPane.ERROR_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, String.format("Berhasil membuat user dengan ID %s!", registeredMember.getId()), "Registrasi Sukses", JOptionPane.INFORMATION_MESSAGE, cool);
+            JOptionPane.showMessageDialog(this, String.format("Berhasil membuat user dengan ID %s!", registeredMember.getId()), "Registrasi Sukses", JOptionPane.INFORMATION_MESSAGE);
         }
 
         //Kembali ke HomeGUI dan clear text field.

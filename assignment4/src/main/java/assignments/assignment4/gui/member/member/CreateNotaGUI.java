@@ -27,10 +27,6 @@ public class CreateNotaGUI extends JPanel {
     private final SimpleDateFormat fmt;
     private final Calendar cal;
     private final MemberSystemGUI memberSystemGUI;
-    private Icon angry = new ImageIcon(getClass().getResource("../../img/angry.png"));
-    private Icon cool = new ImageIcon(getClass().getResource("../../img/cool.png"));
-    private Icon smiling = new ImageIcon(getClass().getResource("../../img/smiling.png"));
-    private Icon info = new ImageIcon(getClass().getResource("../../img/info.png"));
 
     public CreateNotaGUI(MemberSystemGUI memberSystemGUI) {
         this.memberSystemGUI = memberSystemGUI;
@@ -120,7 +116,7 @@ public class CreateNotaGUI extends JPanel {
 
         JLabel label = new JLabel(paketInfo);
         label.setFont(new Font("monospaced", Font.PLAIN, 12));
-        JOptionPane.showMessageDialog(this, label, "Paket Information", JOptionPane.INFORMATION_MESSAGE, info);
+        JOptionPane.showMessageDialog(this, label, "Paket Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -132,7 +128,7 @@ public class CreateNotaGUI extends JPanel {
         String beratStr = beratTextField.getText();
         boolean cekBerat = beratStr.matches(".*\\D.*");
         if (cekBerat || Integer.parseInt(beratStr) < 1) {
-            JOptionPane.showMessageDialog(this, String.format("Berat cucian harus berisi angka!"), "Error", JOptionPane.ERROR_MESSAGE, angry);
+            JOptionPane.showMessageDialog(this, String.format("Berat cucian harus berisi angka!"), "Error", JOptionPane.ERROR_MESSAGE);
             beratTextField.setText("");
             return;
         }
@@ -140,7 +136,7 @@ public class CreateNotaGUI extends JPanel {
         //Pembulatan berat cucian jika < 2 kg.
         int beratInt = Integer.parseInt(beratStr);
         if (beratInt < 2) {
-            JOptionPane.showMessageDialog(this, String.format("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg"), "Info", JOptionPane.INFORMATION_MESSAGE, smiling);
+            JOptionPane.showMessageDialog(this, String.format("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg"), "Info", JOptionPane.INFORMATION_MESSAGE);
             beratInt = 2;
         } 
 
@@ -161,7 +157,7 @@ public class CreateNotaGUI extends JPanel {
         //Menambahkan nota ke array.
         loggedinMember.addNota(nota);
         NotaManager.addNota(nota);
-        JOptionPane.showMessageDialog(this, "Nota berhasil dibuat!", "Sukses", JOptionPane.INFORMATION_MESSAGE, cool);
+        JOptionPane.showMessageDialog(this, "Nota berhasil dibuat!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
 
         //Clear text field & return combobox to default.
         paketComboBox.setSelectedIndex(0);

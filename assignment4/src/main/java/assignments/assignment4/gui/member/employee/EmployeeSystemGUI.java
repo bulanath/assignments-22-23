@@ -11,9 +11,6 @@ import java.awt.event.ActionListener;
 
 public class EmployeeSystemGUI extends AbstractMemberGUI {
     public static final String KEY = "EMPLOYEE";
-    private Icon bored = new ImageIcon(getClass().getResource("../../img/bored.png"));
-    private Icon smiling = new ImageIcon(getClass().getResource("../../img/smiling.png"));
-    private Icon info = new ImageIcon(getClass().getResource("../../img/info.png"));
 
     public EmployeeSystemGUI(SystemCLI systemCLI) {
         super(systemCLI);
@@ -64,10 +61,10 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
 
         //Output jika notaList masih kosong.
         if (NotaManager.notaList.length == 0) {
-            JOptionPane.showMessageDialog(this, "Belum ada nota", "List Nota", JOptionPane.ERROR_MESSAGE, bored);
+            JOptionPane.showMessageDialog(this, "Belum ada nota", "List Nota", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        JOptionPane.showMessageDialog(this, notaStr, "List Nota", JOptionPane.INFORMATION_MESSAGE, info);
+        JOptionPane.showMessageDialog(this, notaStr, "List Nota", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -75,7 +72,7 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      **/
     private void cuci() {
-        JOptionPane.showMessageDialog(this, String.format("Stand back! %s beginning to nyuci! \n", loggedInMember.getNama()), "Nyuci Time", JOptionPane.INFORMATION_MESSAGE, smiling);
+        JOptionPane.showMessageDialog(this, String.format("Stand back! %s beginning to nyuci! \n", loggedInMember.getNama()), "Nyuci Time", JOptionPane.INFORMATION_MESSAGE);
         
         String notaStr = "";
         for (Nota nota: NotaManager.notaList) {
@@ -85,9 +82,9 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
         
         //Output jika notaList masih kosong.
         if (NotaManager.notaList.length == 0) {
-            JOptionPane.showMessageDialog(this, "Nothing to cuci here", "Nyuci Result", JOptionPane.ERROR_MESSAGE, bored);
+            JOptionPane.showMessageDialog(this, "Nothing to cuci here", "Nyuci Result", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        JOptionPane.showMessageDialog(this, notaStr, "Nyuci Result", JOptionPane.INFORMATION_MESSAGE, info);
+        JOptionPane.showMessageDialog(this, notaStr, "Nyuci Result", JOptionPane.INFORMATION_MESSAGE);
     }
 }
