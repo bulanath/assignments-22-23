@@ -31,19 +31,16 @@ public class MainFrame extends JFrame {
 
     private MainFrame() {
         super("CuciCuciSystem");
-        Container c = getContentPane();
-        c.setBackground(Color.getHSBColor(199.2F, 42.9F, 94.1F));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 432);
+        setVisible(true);
         loginablePanel = new Loginable[] {
-            employeeSystemGUI,
-            memberSystemGUI,
+                employeeSystemGUI,
+                memberSystemGUI,
         };
         initGUI();
         cards.show(mainPanel, HomeGUI.KEY);
-        setContentPane(c);
         add(mainPanel);
-        setVisible(true);
     }
 
     /**
