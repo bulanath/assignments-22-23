@@ -1,6 +1,7 @@
 package assignments.assignment4;
 
 import assignments.assignment3.LoginManager;
+import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
 import assignments.assignment4.gui.HomeGUI;
@@ -31,6 +32,11 @@ public class MainFrame extends JFrame {
 
     private MainFrame() {
         super("CuciCuciSystem");
+        employeeSystem.addEmployee(new Employee[]{
+            new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
+            new Employee("Regret", "FansBeratKanaArima"),
+            new Employee ("Moon", "LaperBanget")
+        });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 432);
         setVisible(true);
